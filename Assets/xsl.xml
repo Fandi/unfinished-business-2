@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:module="urn:module">
+    <xsl:output method="text" indent="no" omit-xml-declaration="yes" encoding="utf-8" />
+        
+    <xsl:template match="@* | node()">
+        <xsl:value-of select="module:Log('message')" />
+        <xsl:value-of select="module:Log(1 + 2 + 3)" />
+        <xsl:value-of select="module:Log(module:GetSelectedItemId())" />
+        
+        <xsl:value-of select="module:Log(module:GetItem(1)/name)" />
+        <xsl:value-of select="module:Log(module:GetItem('1')/name)" />
+        <xsl:value-of select="module:Log(module:GetItem(module:GetSelectedItemId())/name)" />
+        
+        <xsl:value-of select="module:Log(module:GetItem(1))" />
+        <xsl:value-of select="module:Log(module:GetItem(1)/price)" />
+        <xsl:value-of select="module:Log(module:GetItem(1)/price + 10)" />
+        <xsl:value-of select="module:Log(module:GetItem(4)/price)" />
+        <xsl:value-of select="module:Log(module:GetItem(4)/price) + 10" />
+        
+        <xsl:value-of select="module:Log(module:GetAllItems()[@id = 2]/name)" />
+        <xsl:value-of select="module:Log(module:GetAllItems()[@id = '2']/name)" />
+        <!--<xsl:value-of select="module:Log(module:GetAllItems()[@id = module:GetSelectedItemId()]/name)" />-->
+
+        <xsl:if test="module:GetAllItems()[@id = 1]/name = 'Item 1'">
+            <xsl:value-of select="module:Log('true')" />
+        </xsl:if>
+
+        <!--<xsl:if test="module:GetAllItems()[@id = module:GetSelectedItemId()]/name = 'Item 1'">
+            <xsl:value-of select="module:Log('true')" />
+        </xsl:if>-->
+
+        <xsl:for-each select="module:GetAllItems()">
+            <xsl:value-of select="module:Log(concat('Item id: ', string(@id), ' (index: ', @id - 1, ')'))" />
+        </xsl:for-each>
+        
+        <!--<xsl:value-of select="module:StartCoroutine()" />-->
+    </xsl:template>
+</xsl:stylesheet>
